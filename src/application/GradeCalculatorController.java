@@ -32,11 +32,11 @@ public class GradeCalculatorController {
     	double courseGrade = 0.0;
     	
     	String projectGrade = projectGradeTextfield.getText();
-    	courseGrade = courseGrade + Double.parseDouble(projectGrade) * 50 / 100;
+    	courseGrade = courseGrade + Double.parseDouble(projectGrade) * 40 / 100;
     	System.out.println("Project grade entered: " + projectGrade + " Course grade so far: " + courseGrade);
     	
     	double quizGrade = quizSlider.getValue();
-    	courseGrade += (quizGrade * .25) * 100 / 10;
+    	courseGrade += (quizGrade * .35) * 100 / 10;
     	System.out.println("Quiz grade entered: " + quizGrade + " Course grade so far: " + courseGrade);
     	
     	int requiredCodingChallengesPassed = requiredCodingChallengesChoicebox.getValue();
