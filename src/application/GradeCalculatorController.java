@@ -28,8 +28,12 @@ public class GradeCalculatorController {
     void calculateGrade(ActionEvent event) {
     	double courseGrade = 0.0;
     	
-    	String projectGrade = projectGradeTextfield.getText();
-    	courseGrade = courseGrade + Double.parseDouble(projectGrade) * 50 / 100;
+    	Double projectGrade = Double.parseDouble(projectGradeTextfield.getText());
+    	if (projectGrade < 0 || projectGrade > 100) {
+    		System.out.println("Project Grade Should be Between 0% and 100%. Invalid grade: " + projectGrade);
+    	} else {
+    		courseGrade = courseGrade + projectGrade * 50 / 100;
+    	}
     	System.out.println("Project grade entered: " + projectGrade + " Course grade so far: " + courseGrade);
     	
     	double quizGrade = quizSlider.getValue();
