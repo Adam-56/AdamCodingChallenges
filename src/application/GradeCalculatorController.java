@@ -59,24 +59,6 @@ public class GradeCalculatorController {
     			
     		}
     	}
-    	    		
-
-    	// Check that the string entered by the user is a valid decimal number
-    	
-    	boolean validProjectGrade = true;
-    	for (char c : valueEntered.toCharArray()) {
-    		// Check if the character is a digit
-    		if (!Character.isDigit(c)) {
-    			validProjectGrade = false;
-    			projectErrorLabel.setText("Do not use " + c + " in a project grade. Make sure to enter a number.");    		
-    			
-    		} else {
-    			if (!Character.isDigit('.')) {
-    				validProjectGrade = true;
-    			}
-    		}
-    	}
-    	
 
     	// Convert the string entered by the user to a double if the input is a valid number
     	// Otherwise the project grade will default to zero
