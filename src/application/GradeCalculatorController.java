@@ -35,6 +35,7 @@ public class GradeCalculatorController {
      * @return the project value entered by the user if it is a valid percentage grade and 0 otherwise
      */
     double getProjectGrade(String valueEntered) {
+
     	// Check that the string entered by the user is a valid decimal number   	
     	boolean validProjectGrade = true;
     	int counter = 0;
@@ -59,6 +60,24 @@ public class GradeCalculatorController {
     		}
     	}
     	    		
+
+    	// Check that the string entered by the user is a valid decimal number
+    	
+    	boolean validProjectGrade = true;
+    	for (char c : valueEntered.toCharArray()) {
+    		// Check if the character is a digit
+    		if (!Character.isDigit(c)) {
+    			validProjectGrade = false;
+    			projectErrorLabel.setText("Do not use " + c + " in a project grade. Make sure to enter a number.");    		
+    			
+    		} else {
+    			if (!Character.isDigit('.')) {
+    				validProjectGrade = true;
+    			}
+    		}
+    	}
+    	
+
     	// Convert the string entered by the user to a double if the input is a valid number
     	// Otherwise the project grade will default to zero
     	double projectGrade = 0.0;
