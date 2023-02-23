@@ -2,12 +2,17 @@ package application;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
 
 public class GradeCalculatorController {
+	Stage applicationStage;
+	double averageQuizGrade = 0.0;
 
     @FXML
     private ChoiceBox<Integer> requiredCodingChallengesChoicebox;
@@ -16,7 +21,7 @@ public class GradeCalculatorController {
     private ChoiceBox<Integer> optionalCodingChallengesChoicebox;
 
     @FXML
-    private Slider quizSlider;
+    private ChoiceBox<Integer> quizzesChoiceBox;
 
     @FXML
     private TextField projectGradeTextfield;
@@ -74,6 +79,27 @@ public class GradeCalculatorController {
     	
     	return projectGrade;
     }
+    
+    void calculateQuizGrade(Scene mainScene, TextField quizGradeTextfield) {
+    	averageQuizGrade = Double.parseDouble(quizGradeTextfield.getText());
+    	 applicationStage.setScene(mainScene);
+    }
+    
+    @FXML
+    void getQuizGrades(ActionEvent enterQuizGradesEvent) {
+    	Scene mainScene = applicationStage.getScene();
+    	
+    	HBox quizRow = new HBox();
+    	Label quizLabel = new Label("Quiz grade");
+    	TextField quizGradeTextfield = new TextField();
+    	Button doneButton = new Button("Done");
+    	quizRow.getChildren().addAll(quizLabel,quizGradeTextfield,doneButton);
+    	doneButton.setOnAction(doneEvent -> calculateQuizGrade(mainScene, quizGradeTextfield));
+    	
+    	Scene quizScene = new Scene(quizRow);
+    	applicationStage.setScene(quizScene);
+    }
+    
     @FXML
     void calculateGrade(ActionEvent event) {
     	//Clear all error messages
@@ -91,7 +117,7 @@ public class GradeCalculatorController {
     	
     	System.out.println("Project grade entered: " + projectGrade + " Course grade so far: " + courseGrade);
     	
-    	double quizGrade = quizSlider.getValue();
+    	double quizGrade = averageQuizGrade;
     	courseGrade += (quizGrade * .25) * 100 / 10;
     	System.out.println("Quiz grade entered: " + quizGrade + " Course grade so far: " + courseGrade);
     	
