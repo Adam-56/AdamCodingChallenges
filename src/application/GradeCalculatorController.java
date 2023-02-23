@@ -1,5 +1,7 @@
 package application;
 
+import java.util.ArrayList;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
@@ -8,6 +10,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class GradeCalculatorController {
@@ -80,23 +83,39 @@ public class GradeCalculatorController {
     	return projectGrade;
     }
     
-    void calculateQuizGrade(Scene mainScene, TextField quizGradeTextfield) {
-    	averageQuizGrade = Double.parseDouble(quizGradeTextfield.getText());
-    	 applicationStage.setScene(mainScene);
+    void calculateQuizGrade(Scene mainScene, ArrayList<TextField> quizGradeTextfields) {
+    	averageQuizGrade = 0.0;
+    	for (TextField textfield : quizGradeTextfields) {
+        	averageQuizGrade += Double.parseDouble(textfield.getText());
+    	}   	
+    	averageQuizGrade = averageQuizGrade / quizGradeTextfields.size();
+    	applicationStage.setScene(mainScene);
     }
     
     @FXML
     void getQuizGrades(ActionEvent enterQuizGradesEvent) {
     	Scene mainScene = applicationStage.getScene();
     	
-    	HBox quizRow = new HBox();
-    	Label quizLabel = new Label("Quiz grade");
-    	TextField quizGradeTextfield = new TextField();
+    	int numberOfQuizzes = quizzesChoiceBox.getValue();
+    	int rowCounter = 0;
+    	VBox allRows = new VBox(); 
+    	ArrayList<TextField> quizTextFields = new ArrayList<TextField>();
+    	while (rowCounter < numberOfQuizzes) {
+    		rowCounter++;
+        	HBox quizRow = new HBox();
+        	Label quizLabel = new Label("Quiz " + rowCounter + " grade");
+        	TextField quizGradeTextfield = new TextField();
+        	quizTextFields.add(quizGradeTextfield);
+        	
+        	quizRow.getChildren().addAll(quizLabel,quizGradeTextfield);
+    
+        	allRows.getChildren().add(quizRow);
+    	}
     	Button doneButton = new Button("Done");
-    	quizRow.getChildren().addAll(quizLabel,quizGradeTextfield,doneButton);
-    	doneButton.setOnAction(doneEvent -> calculateQuizGrade(mainScene, quizGradeTextfield));
+    	doneButton.setOnAction(doneEvent -> calculateQuizGrade(mainScene, quizTextFields));
+    	allRows.getChildren().add(doneButton);
     	
-    	Scene quizScene = new Scene(quizRow);
+    	Scene quizScene = new Scene(allRows);
     	applicationStage.setScene(quizScene);
     }
     
