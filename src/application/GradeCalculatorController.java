@@ -51,10 +51,11 @@ public class GradeCalculatorController {
     void calculateRequiredQuizGrade(Scene mainScene, ArrayList<TextField> requiredQuizGradeTextfields) {
     	requiredQuizErrorLabel.setText("");
     	
+    	double weightPerRequiredQuiz = 1.0/requiredQuizGradeTextfields.size(); 
+    	
     	averageRequiredQuizGrade = 0.0;
     	boolean errorInRequiredQuizGrade = false;
     	
-    	double weightPerRequiredQuiz = 1.0 / 150; 
     	for (TextField requiredQuizGradeTextfield: requiredQuizGradeTextfields) {
     		Grade requiredQuizGrade = new Grade(0, 10, weightPerRequiredQuiz);
     		String errorMessage = requiredQuizGrade.setValue(requiredQuizGradeTextfield.getText());
@@ -63,10 +64,9 @@ public class GradeCalculatorController {
     			requiredQuizErrorLabel.setText(errorMessage);
     		}
     		averageRequiredQuizGrade += requiredQuizGrade.getWeightedPercentageValue();	
-        	//averageRequiredQuizGrade += Double.parseDouble(requiredQuizGradeTextfield.getText());
+        	
     	}
     	if (!errorInRequiredQuizGrade) {
-    		//averageRequiredQuizGrade = averageRequiredQuizGrade / requiredQuizGradeTextfields.size();
     		applicationStage.setScene(mainScene);
         	averageRequiredQuizGrade = (averageRequiredQuizGrade / 15);
         	requiredQuizAve.setText(String.format("Average For Required Quizzes: %.2f / 10", averageRequiredQuizGrade));

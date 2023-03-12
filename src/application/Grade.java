@@ -7,7 +7,7 @@ public class Grade {
 	
 	Grade(double gradeValue, int maxPossibleValue, double weightTowardsCourseGrade) {
 		value = gradeValue;
-		maxValue = maxPossibleValue;
+		maxValue = maxPossibleValue; 
 		weight = weightTowardsCourseGrade;
 	}
 	
@@ -43,14 +43,15 @@ public class Grade {
 
     	// Convert the string entered by the user to a double if the input is a valid number
     	// Otherwise the project grade will default to zero
-    	
     	if (validGrade) {
     		value = Double.parseDouble(valueAsString);
     	}
     	
-    	if (value < 0.0 || value > maxValue) {
+    	// Check if the number entered by the user is a valid percentage grade
+    	// If valid, include it in grade computation
+    	if (value < 0 || value > maxValue) {
     		errorMessage = String.format("Grade Should be Between 0% and %d.", maxValue);
-    		value = 0.0;
+    		value = 0;
     	}
     	
     	return errorMessage;
