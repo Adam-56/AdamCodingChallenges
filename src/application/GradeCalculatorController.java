@@ -51,7 +51,7 @@ public class GradeCalculatorController {
     void calculateRequiredQuizGrade(Scene mainScene, ArrayList<TextField> requiredQuizGradeTextfields) {
     	requiredQuizErrorLabel.setText("");
     	
-    	double weightPerRequiredQuiz = 1.0/requiredQuizGradeTextfields.size(); 
+    	double weightPerRequiredQuiz = 5.0/50.0; 
     	
     	averageRequiredQuizGrade = 0.0;
     	boolean errorInRequiredQuizGrade = false;
