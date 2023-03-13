@@ -5,15 +5,36 @@ public class Grade {
 	int maxValue = 100;
 	double weight;
 	
+	/**
+	 * Constructs a Grade object with the given grade value, maximum possible value, and weight towards the course grade.
+	 *
+	 * @param gradeValue The value of the grade.
+	 * @param maxPossibleValue The maximum possible value of the grade.
+	 * @param weightTowardsCourseGrade The weight of the grade towards the course grade.
+	 */
+	
 	Grade(double gradeValue, int maxPossibleValue, double weightTowardsCourseGrade) {
 		value = gradeValue;
 		maxValue = maxPossibleValue; 
 		weight = weightTowardsCourseGrade;
 	}
 	
+	/**
+	 * Computes and returns the weighted percentage value of the grade.
+	 *
+	 * @return The weighted percentage value of the grade.
+	 */
+	
 	double getWeightedPercentageValue() {
 		return value * 100 * weight / maxValue;
 	}
+	
+	/**
+	 * Sets the value of the grade based on the string entered by the user.
+	 *
+	 * @param valueAsString The string entered by the user.
+	 * @return An error message, if applicable. Otherwise, an empty string.
+	 */
 	
 	String setValue(String valueAsString) {
 		String errorMessage = "";
@@ -50,7 +71,7 @@ public class Grade {
     	// Check if the number entered by the user is a valid percentage grade
     	// If valid, include it in grade computation
     	if (value < 0 || value > maxValue) {
-    		errorMessage = String.format("Grade Should be Between 0% and %d.", maxValue);
+    		errorMessage = String.format("Grade Should be Between 0 and %d.", maxValue);
     		value = 0;
     	}
     	
