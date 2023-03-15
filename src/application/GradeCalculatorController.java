@@ -1,6 +1,7 @@
 package application;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -128,6 +129,15 @@ public class GradeCalculatorController {
         	
     	}
     	if (!errorInOptionalQuizGrade) {
+            Collections.sort(optionalQuizGradeTextfields, Collections.reverseOrder());
+
+            int numQuizzesToInclude = Math.min(5, optionalQuizGradeTextfields.size());
+            for (int i = 0; i < numQuizzesToInclude; i++) {
+                TextField averageOptionalQuizGrade = optionalQuizGradeTextfields.get(i);
+            }
+            averageOptionalQuizGrade /= numQuizzesToInclude;
+
+        	}
     		applicationStage.setScene(mainScene);
         	averageOptionalQuizGrade = (averageOptionalQuizGrade / 5);
         	optionalQuizAve.setText(String.format("Average For Optional Quizzes: %.2f / 10", averageOptionalQuizGrade));
@@ -164,6 +174,12 @@ public class GradeCalculatorController {
     	
     	Scene quizScene = new Scene(allRows);
     	applicationStage.setScene(quizScene);
+    	
+    	
+
+			
+		
+
     	
     }
     
