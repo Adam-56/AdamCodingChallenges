@@ -111,41 +111,42 @@ public class GradeCalculatorController {
     Label optionalQuizErrorLabel = new Label();
 
     void calculateOptionalQuizGrade(Scene mainScene, ArrayList<TextField> optionalQuizGradeTextfields) {
-    	optionalQuizErrorLabel.setText("");
-    	
-    	double weightPerOptionalQuiz = 5.0/50.0; 
-    	
-    	averageOptionalQuizGrade = 0.0;
-    	boolean errorInOptionalQuizGrade = false;
-    	
-    	for (TextField optionalQuizGradeTextfield: optionalQuizGradeTextfields) {
-    		Grade optionalQuizGrade = new Grade(0, 10, weightPerOptionalQuiz);
-    		String errorMessage = optionalQuizGrade.setValue(optionalQuizGradeTextfield.getText());
-    		if (!errorMessage.equals("")) {
-    			errorInOptionalQuizGrade = true;
-    			optionalQuizErrorLabel.setText(errorMessage);
-    		}
-    		averageOptionalQuizGrade += optionalQuizGrade.getWeightedPercentageValue();	
-        	
-    	}
-    	if (!errorInOptionalQuizGrade) {
-            Collections.sort(optionalQuizGradeTextfields, Collections.reverseOrder());
+        optionalQuizErrorLabel.setText("");
 
-            int numQuizzesToInclude = Math.min(5, optionalQuizGradeTextfields.size());
-            for (int i = 0; i < numQuizzesToInclude; i++) {
-                TextField averageOptionalQuizGrade = optionalQuizGradeTextfields.get(i);
+        double weightPerOptionalQuiz = 5.0 / 50.0;
+
+        averageOptionalQuizGrade = 0.0;
+        boolean errorInOptionalQuizGrade = false;
+
+        ArrayList<Double> optQuizGrades = new ArrayList<>();
+
+        for (TextField optionalQuizGradeTextfield : optionalQuizGradeTextfields) {
+            Grade optionalQuizGrade = new Grade(0, 10, weightPerOptionalQuiz);
+            String errorMessage = optionalQuizGrade.setValue(optionalQuizGradeTextfield.getText());
+            if (!errorMessage.equals("")) {
+                errorInOptionalQuizGrade = true;
+                optionalQuizErrorLabel.setText(errorMessage);
+
             }
-            averageOptionalQuizGrade /= numQuizzesToInclude;
+            optQuizGrades.add(optionalQuizGrade.getWeightedPercentageValue());
+        }
 
-        	}
-    		applicationStage.setScene(mainScene);
-        	averageOptionalQuizGrade = (averageOptionalQuizGrade / 5);
-        	optionalQuizAve.setText(String.format("Average For Optional Quizzes: %.2f / 10", averageOptionalQuizGrade));
-    	}
-        	
-    	
-    	
+        if (!errorInOptionalQuizGrade) {
+            optQuizGrades.sort(Collections.reverseOrder());
+
+            int numberOfQuizzes = Math.min(optQuizGrades.size(), 5);
+            for (int i = 0; i < numberOfQuizzes; i++) {
+                averageOptionalQuizGrade += optQuizGrades.get(i);
+            }
+        
+
+        applicationStage.setScene(mainScene);
+        averageOptionalQuizGrade = (averageOptionalQuizGrade / 5);
+        optionalQuizAve.setText(String.format("Average For Optional Quizzes: %.2f / 10", averageOptionalQuizGrade));
+        }
     }
+
+    
     
     @FXML
     void getoptionalQuizGrades(ActionEvent enteroptionalQuizGradesEvent) {
