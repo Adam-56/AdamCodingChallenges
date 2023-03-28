@@ -8,16 +8,13 @@ public class Flight {
 
 	public Flight(Date departure, Date arrival) {
 		// TODO Auto-generated constructor stub
-		if (departure == null || arrival == null) {
-            this.departure = null;
-            this.arrival = null;
-        } else if (departure.before(arrival)) {
-            this.departure = departure;
-            this.arrival = arrival;
-        } else {
-            this.departure = null;
-            this.arrival = null;
-        }
+		if (departure == null || arrival == null || departure.before(arrival)) {
+	        this.departure = departure == null ? null : new Date(departure.getTime());
+	        this.arrival = arrival == null ? null : new Date(arrival.getTime());
+	    } else {
+	        this.departure = null;
+	        this.arrival = null;
+	    }
 	}
 
 	public Flight(Flight flight) {
@@ -34,4 +31,29 @@ public class Flight {
         long milliseconds = arrival.getTime() - departure.getTime();
         return milliseconds / 1000 / 60;
     }
+	
+	public Date getDeparture() {
+        return departure != null ? new Date(departure.getTime()) : null;
+    }
+
+    // Getter for arrival date
+    public Date getArrival() {
+        return arrival != null ? new Date(arrival.getTime()) : null;
+    }
+
+    // Setter for departure date
+    public void setDeparture(Date departure) {
+        if (departure != null && (arrival == null || departure.before(arrival))) {
+            this.departure = new Date(departure.getTime());
+        }
+    }
+
+    // Setter for arrival date
+    public void setArrival(Date arrival) {
+        if (arrival != null && (departure == null || arrival.after(departure))) {
+            this.arrival = new Date(arrival.getTime());
+        }
+    }
+
+    
 }
