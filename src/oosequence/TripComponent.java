@@ -6,53 +6,50 @@ public class TripComponent {
     private Date start;
     private Date end;
 
-    public TripComponent() {
-        start = new Date();
-        end = new Date(start.getTime() + 60 * 60 * 1000);
-    }
-
-    public TripComponent(Date start, Date end) {
-        if (start == null || end == null || start.before(end)) {
-            this.start = start == null ? null : new Date(start.getTime());
-            this.end = end == null ? null : new Date(end.getTime());
+    public TripComponent(Date startDate, Date endDate) {
+        if (startDate.before(endDate)) {
+            this.start = startDate;
+            this.end = endDate;
         } else {
-            this.start = new Date(start.getTime());
-            this.end = null;
+            this.start = endDate;
+            this.end = startDate;
         }
     }
-
 
     public TripComponent(TripComponent toCopy) {
         this.start = toCopy.start;
         this.end = toCopy.end;
     }
 
-    public Date getStart() {
-        return start != null ? new Date(start.getTime()) : null;
+    public String getStart() {
+        return start.toString();
     }
 
-    public void setStart(Date start) {
-        if (start != null && (end == null || start.before(end))) {
-            this.start = new Date(start.getTime());
+    public String getEnd() {
+        return end.toString();
+    }
+
+    public void setStart(Date startDate) {
+        if (startDate.before(end)) {
+            this.start = startDate;
         }
     }
 
-    public Date getEnd() {
-        return end != null ? new Date(end.getTime()) : null;
-    }
-
-    public void setEnd(Date end) {
-        if (end != null && (start == null || end.after(start))) {
-            this.end = new Date(end.getTime());
+    public void setEnd(Date endDate) {
+        if (endDate.after(start)) {
+            this.end = endDate;
         }
     }
 
-    public long lengthInSeconds() {
-        if (start == null || end == null) {
-            return 0;
-        }
+    protected long lengthInSeconds() {
+        return (end.getTime() - start.getTime()) / 1000;
+    }
 
-        long milliseconds = end.getTime() - start.getTime();
-        return milliseconds / 1000;
+    public boolean isBefore(TripComponent otherComponent) {
+        return this.end.before(otherComponent.start);
+    }
+
+    public boolean overlapsWith(TripComponent otherComponent) {
+        return !this.isBefore(otherComponent) && !otherComponent.isBefore(this);
     }
 }
