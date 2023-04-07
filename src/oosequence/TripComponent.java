@@ -7,12 +7,12 @@ public class TripComponent {
     private Date end;
 
     public TripComponent(Date startDate, Date endDate) {
-        if (startDate.before(endDate)) {
+        if (startDate != null && endDate != null && !startDate.before(endDate)) {
+            this.start = startDate;
+            this.end = null;
+        } else {
             this.start = startDate;
             this.end = endDate;
-        } else {
-            this.start = endDate;
-            this.end = startDate;
         }
     }
 
@@ -22,34 +22,42 @@ public class TripComponent {
     }
 
     public String getStart() {
-        return start.toString();
+        return start == null ? "" : start.toString();
     }
 
     public String getEnd() {
-        return end.toString();
+        return end == null ? "" : end.toString();
     }
 
     public void setStart(Date startDate) {
-        if (startDate.before(end)) {
+        if (startDate == null || this.end == null || startDate.before(this.end)) {
             this.start = startDate;
         }
     }
 
     public void setEnd(Date endDate) {
-        if (endDate.after(start)) {
+        if (endDate == null || this.start == null || endDate.after(this.start)) {
             this.end = endDate;
         }
     }
 
     protected long lengthInSeconds() {
+        if (start == null || end == null) {
+            return 0;
+        }
         return (end.getTime() - start.getTime()) / 1000;
     }
 
     public boolean isBefore(TripComponent otherComponent) {
-        return this.end.before(otherComponent.start);
+        return this.end != null && otherComponent.start != null && this.end.before(otherComponent.start);
     }
 
     public boolean overlapsWith(TripComponent otherComponent) {
-        return !this.isBefore(otherComponent) && !otherComponent.isBefore(this);
+        if (this.start == null || this.end == null || otherComponent.start == null || otherComponent.end == null) {
+            return false;
+        }
+        return this.start.before(otherComponent.end) && this.end.after(otherComponent.start);
     }
+
 }
+

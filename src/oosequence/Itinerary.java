@@ -1,9 +1,11 @@
 package oosequence;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Itinerary {
     private String name;
+    private Date start;
     private ArrayList<TripComponent> tripComponents;
 
     public Itinerary(String aName) {
@@ -12,26 +14,45 @@ public class Itinerary {
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
-    public void addTripComponent(TripComponent component) {
-        tripComponents.add(component);
+    public boolean addTripComponent(TripComponent newTripComponent) {
+        for (TripComponent tripComponent : tripComponents) {
+            if (tripComponent.overlapsWith(newTripComponent)) {
+                return false;
+            }
+        }
+        tripComponents.add(newTripComponent);
+        tripComponents.sort((tc1, tc2) -> tc1.getStart().compareTo(tc2.getStart()));
+        return true;
     }
 
     public ArrayList<TripComponent> getTripComponents() {
-        return tripComponents;
+        return this.tripComponents;
     }
 
-    @Override
     public String toString() {
-        StringBuilder result = new StringBuilder(name + "\n");
+        StringBuilder sb = new StringBuilder();
+        sb.append(name).append("\n");
 
         for (int i = 0; i < tripComponents.size(); i++) {
-            TripComponent component = tripComponents.get(i);
-            result.append(i).append("\t").append(component.getStart()).append("\t").append(component.getEnd()).append("\n");
+            sb.append(i)
+                .append("\t")
+                .append(tripComponents.get(i).getStart())
+                .append("\t")
+                .append(tripComponents.get(i).getEnd())
+                .append("\n");
         }
 
-        return result.toString();
+        return sb.toString();
     }
+
+	public Date getStart() {
+		return start;
+	}
+
+	public void setStart(Date start) {
+		this.start = start;
+	}
 }

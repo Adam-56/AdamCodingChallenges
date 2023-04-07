@@ -12,10 +12,10 @@ public class Flight extends TripComponent {
         this.arrivalAirport = isValidAirportCode(arrivalAirport) ? arrivalAirport : "";
     }
 
-    public Flight(Flight toCopy) {
-        super(toCopy);
-        this.departureAirport = toCopy.departureAirport;
-        this.arrivalAirport = toCopy.arrivalAirport;
+    public Flight(Flight c) {
+        super(c);
+        this.departureAirport = c.departureAirport;
+        this.arrivalAirport = c.arrivalAirport;
     }
 
     public String getDepartureAirport() {
