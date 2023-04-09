@@ -15,26 +15,26 @@ public class RecursionExercises {
         return 1 + countDigits(i / 10);
     }
 
-	public int addDigits(int i) {
+	public int addDigits(int sum) {
 		// TODO Auto-generated method stub
-		if (i < 0) {
-            i = -i;
+		if (sum < 0) {
+            sum = -sum;
         }
-        if (i < 10) {
-            return i;
+        if (sum < 10) {
+            return sum;
         }
-        return i % 10 + addDigits(i / 10);
+        return sum % 10 + addDigits(sum / 10);
     }
 
-	public int sum(int i, int j) {
+	public int sum(int sumFrom, int sumTo) {
 		// TODO Auto-generated method stub
-		if (i > j || i < 0 || j < 0) {
+		if (sumFrom > sumTo || sumFrom < 0 || sumTo < 0) {
             return 0;
         }
-        if (i == j) {
-            return i;
+        if (sumFrom == sumTo) {
+            return sumFrom;
         }
-        return i + sum(i + 1, j);
+        return sumFrom + sum(sumFrom + 1, sumTo);
     }
 
 	public int sumEvenNumbers(int i) {
