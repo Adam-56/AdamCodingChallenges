@@ -50,32 +50,29 @@ public class GradeCalculatorController {
     Label requiredQuizErrorLabel = new Label();
     
     void calculateRequiredQuizGrade(Scene mainScene, ArrayList<TextField> requiredQuizGradeTextfields) {
-    	requiredQuizErrorLabel.setText("");
-    	
-    	double weightPerRequiredQuiz = 5.0/50.0; 
-    	
-    	averageRequiredQuizGrade = 0.0;
-    	boolean errorInRequiredQuizGrade = false;
-    	
-    	for (TextField requiredQuizGradeTextfield: requiredQuizGradeTextfields) {
-    		Grade requiredQuizGrade = new Grade(0, 10, weightPerRequiredQuiz);
-    		String errorMessage = requiredQuizGrade.setValue(requiredQuizGradeTextfield.getText());
-    		if (!errorMessage.equals("")) {
-    			errorInRequiredQuizGrade = true;
-    			requiredQuizErrorLabel.setText(errorMessage);
-    		}
-    		averageRequiredQuizGrade += requiredQuizGrade.getWeightedPercentageValue();	
-        	
-    	}
-    	if (!errorInRequiredQuizGrade) {
-    		applicationStage.setScene(mainScene);
-        	averageRequiredQuizGrade = (averageRequiredQuizGrade / 15);
-        	requiredQuizAve.setText(String.format("Average For Required Quizzes: %.2f / 10", averageRequiredQuizGrade));
-    	}
-        	
-    	
-    	
+        requiredQuizErrorLabel.setText("");
+
+        double weightPerRequiredQuiz = 5.0 / 50.0;
+
+        averageRequiredQuizGrade = 0.0;
+        boolean errorInRequiredQuizGrade = false;
+
+        for (TextField requiredQuizGradeTextfield : requiredQuizGradeTextfields) {
+            try {
+                Grade requiredQuizGrade = new Grade(requiredQuizGradeTextfield.getText(), 10, weightPerRequiredQuiz);
+                averageRequiredQuizGrade += requiredQuizGrade.getWeightedPercentageValue();
+            } catch (InvalidGradeException e) {
+                errorInRequiredQuizGrade = true;
+                requiredQuizErrorLabel.setText(e.getMessage());
+            }
+        }
+        if (!errorInRequiredQuizGrade) {
+            applicationStage.setScene(mainScene);
+            averageRequiredQuizGrade = (averageRequiredQuizGrade / 15);
+            requiredQuizAve.setText(String.format("Average For Required Quizzes: %.2f / 10", averageRequiredQuizGrade));
+        }
     }
+
     
     @FXML
     void getrequiredQuizGrades(ActionEvent enterrequiredQuizGradesEvent) {
@@ -121,31 +118,15 @@ public class GradeCalculatorController {
         ArrayList<Double> optQuizGrades = new ArrayList<>();
 
         for (TextField optionalQuizGradeTextfield : optionalQuizGradeTextfields) {
-            Grade optionalQuizGrade = new Grade(0, 10, weightPerOptionalQuiz);
-            String errorMessage = optionalQuizGrade.setValue(optionalQuizGradeTextfield.getText());
-            if (!errorMessage.equals("")) {
+            try {
+                Grade optionalQuizGrade = new Grade(optionalQuizGradeTextfield.getText(), 10, weightPerOptionalQuiz);
+                optQuizGrades.add(optionalQuizGrade.getWeightedPercentageValue());
+            } catch (InvalidGradeException e) {
                 errorInOptionalQuizGrade = true;
-                optionalQuizErrorLabel.setText(errorMessage);
-
+                optionalQuizErrorLabel.setText(e.getMessage());
             }
-            optQuizGrades.add(optionalQuizGrade.getWeightedPercentageValue());
-        }
-
-        if (!errorInOptionalQuizGrade) {
-            optQuizGrades.sort(Collections.reverseOrder());
-
-            int numberOfQuizzes = Math.min(optQuizGrades.size(), 5);
-            for (int i = 0; i < numberOfQuizzes; i++) {
-                averageOptionalQuizGrade += optQuizGrades.get(i);
-            }
-        
-
-        applicationStage.setScene(mainScene);
-        averageOptionalQuizGrade = (averageOptionalQuizGrade / 5);
-        optionalQuizAve.setText(String.format("Average For Optional Quizzes: %.2f / 10", averageOptionalQuizGrade));
         }
     }
-
     
     
     @FXML

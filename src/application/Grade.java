@@ -25,8 +25,8 @@ public class Grade {
         } catch (NumberFormatException e) {
             throw new InvalidGradeException("Invalid grade value: " + value, e);
         }
-        if (this.value > maxValue) {
-            throw new InvalidGradeException("Grade value " + value + " is greater than the maximum value " + maxValue);
+        if (this.value > maxValue || this.value > maxValue) {
+            throw new InvalidGradeException("Grade Should be Between 0 and " + maxValue);
         }
         this.maxValue = maxValue;
         this.weight = weight;
