@@ -1,9 +1,9 @@
 package application;
 
 public class Grade {
-	double value;
-	int maxValue = 100;
-	double weight;
+    private double value;
+    private int maxValue;
+    private double weight;
 	
 	/**
 	 * Constructs a Grade object with the given grade value, maximum possible value, and weight towards the course grade.
@@ -13,12 +13,46 @@ public class Grade {
 	 * @param weightTowardsCourseGrade The weight of the grade towards the course grade.
 	 */
 	
-	Grade(double gradeValue, int maxPossibleValue, double weightTowardsCourseGrade) {
-		value = gradeValue;
-		maxValue = maxPossibleValue; 
-		weight = weightTowardsCourseGrade;
-	}
-	
+    public Grade(double value, int maxValue, double weight) {
+        this.value = value;
+        this.maxValue = maxValue;
+        this.weight = weight;
+    }
+
+    public Grade(String value, int maxValue, double weight) throws InvalidGradeException {
+        try {
+            this.value = Double.parseDouble(value);
+        } catch (NumberFormatException e) {
+            throw new InvalidGradeException("Invalid grade value: " + value, e);
+        }
+        if (this.value > maxValue) {
+            throw new InvalidGradeException("Grade value " + value + " is greater than the maximum value " + maxValue);
+        }
+        this.maxValue = maxValue;
+        this.weight = weight;
+    }
+
+    public double getValue() {
+        return value;
+    }
+
+    public int getMaxValue() {
+        return maxValue;
+    }
+
+    public double getWeight() {
+        return weight;
+    }
+
+    public double getWeightedPercentageGrade() {
+        if (weight == 1.0) {
+            return value;
+        } else {
+            return value / maxValue * weight * 100;
+        }
+    }
+
+
 	/**
 	 * Computes and returns the weighted percentage value of the grade.
 	 *
@@ -77,5 +111,8 @@ public class Grade {
     	
     	return errorMessage;
     }
+
+
+	
 
 }
