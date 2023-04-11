@@ -8,7 +8,7 @@ import java.io.IOException;
 
 public class FileExercises {
 
-	public static int counting(String word) throws IOException {
+	public static int counting(String one) throws IOException {
 		// TODO Auto-generated method stub
 		int count = 0;
         try (BufferedReader reader = new BufferedReader(new FileReader("example.txt"))) {
@@ -16,7 +16,7 @@ public class FileExercises {
             while ((line = reader.readLine()) != null) {
                 String[] words = line.split(" ");
                 for (String currentWord : words) {
-                    if (currentWord.equalsIgnoreCase(word)) {
+                    if (currentWord.equalsIgnoreCase(one)) {
                         count++;
                     }
                 }
