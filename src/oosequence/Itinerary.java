@@ -25,8 +25,22 @@ public class Itinerary {
 
 
     public void addFlight(Flight flight) {
-        flightList.add(new Flight(flight));
+        Flight flightCopy = new Flight(flight.getDeparture(), flight.getArrival());
+        if (flightList.isEmpty()) {
+            flightList.add(flightCopy);
+        } else {
+            int index = 0;
+            for (Flight f : flightList) {
+                if (f.getDeparture().compareTo(flightCopy.getDeparture()) > 0) {
+                    break;
+                }
+                index++;
+            }
+            flightList.add(index, flightCopy);
+        }
     }
+
+
 
     public long getTotalLayover() {
         long totalLayover = 0;
