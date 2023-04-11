@@ -1,40 +1,54 @@
 package oosequence;
 
-public class Flight extends TripComponent {
-    private String departureAirport;
-    private String arrivalAirport;
+import java.util.Date;
 
-    public Flight() {
-        super();
-    }
+public class Flight {
+    private Date departure;
+    private Date arrival;
 
-    public String getDepartureAirport() {
-        return departureAirport;
-    }
-
-    public void setDepartureAirport(String departureAirport) {
-        if (departureAirport != null && departureAirport.length() == 3) {
-            this.departureAirport = departureAirport;
+    public Flight(Date departure, Date arrival) {
+        if ((departure != null && arrival != null) && (departure.equals(arrival) || departure.after(arrival))) {
+            this.departure = null;
+            this.arrival = null;
         } else {
-            this.departureAirport = "";
+            this.departure = departure != null ? new Date(departure.getTime()) : null;
+            this.arrival = arrival != null ? new Date(arrival.getTime()) : null;
         }
     }
 
-    public String getArrivalAirport() {
-        return arrivalAirport;
+
+
+    public Flight(Flight flight) {
+        this.departure = flight.getDeparture() != null ? new Date(flight.getDeparture().getTime()) : null;
+        this.arrival = flight.getArrival() != null ? new Date(flight.getArrival().getTime()) : null;
     }
 
-    public void setArrivalAirport(String arrivalAirport) {
-        if (arrivalAirport != null && arrivalAirport.length() == 3) {
-            this.arrivalAirport = arrivalAirport;
-        } else {
-            this.arrivalAirport = "";
+    public Date getDeparture() {
+        return departure != null ? new Date(departure.getTime()) : null;
+    }
+
+    public void setDeparture(Date departure) {
+        if (departure == null || (arrival != null && departure.after(arrival))) {
+            return;
         }
+        this.departure = new Date(departure.getTime());
     }
 
-    public String getDuration() {
-        long durationInSeconds = lengthInSeconds();
-        long durationInMinutes = durationInSeconds / 60;
-        return String.format("%d minutes", durationInMinutes);
+    public Date getArrival() {
+        return arrival != null ? new Date(arrival.getTime()) : null;
+    }
+
+    public void setArrival(Date arrival) {
+        if (arrival == null || (departure != null && arrival.before(departure))) {
+            return;
+        }
+        this.arrival = new Date(arrival.getTime());
+    }
+
+    public long length() {
+        if (departure == null || arrival == null) {
+            return 0;
+        }
+        return (arrival.getTime() - departure.getTime()) / (60 * 1000);
     }
 }
